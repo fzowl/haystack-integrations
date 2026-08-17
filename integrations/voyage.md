@@ -31,42 +31,57 @@ toc: true
 - [Contextualized Embeddings Example](#contextualized-embeddings-example)
 - [Multimodal Embeddings](#multimodal-embeddings)
 
-[Voyage AI](https://voyageai.com/)'s embedding and ranking models are state-of-the-art in retrieval accuracy. The integration supports the following models:
-- **`voyage-4-large`**, **`voyage-4`**, and **`voyage-4-lite`** - Latest general-purpose embedding models with shared embedding space and MoE architecture
-- **`voyage-3.5`** and **`voyage-3.5-lite`** - General-purpose embedding models with superior performance
-- **`voyage-code-3`** - Optimized for code retrieval
-- **`voyage-context-3`** - Contextualized chunk embedding model that preserves document context for improved retrieval accuracy
-- **`voyage-multimodal-3.5`** - Multimodal model supporting text, images, and video (preview)
+[Voyage AI](https://voyageai.com/)'s embedding and ranking models are state-of-the-art in retrieval accuracy. The `model` parameter accepts any Voyage model identifier, so the integration works with the full Voyage catalog. Current models include:
+- **`voyage-4-large`**, **`voyage-4`**, and **`voyage-4-lite`** - Latest general-purpose and multilingual embedding models with a shared, cross-compatible embedding space
+- **`voyage-code-4`** - Optimized for code retrieval and coding-agent use cases
+- **`voyage-finance-2`** and **`voyage-law-2`** - Domain-optimized embedding models for finance and legal retrieval
+- **`voyage-4-nano`** - Compact open-weight embedding model
+- **`voyage-context-4`** - Contextualized chunk embedding model that preserves document context for improved retrieval accuracy
+- **`voyage-multimodal-3.5`** - Multimodal model supporting text, images, and video
+- **`rerank-2.5`** and **`rerank-2.5-lite`** - Latest reranker models
 
-For the complete list of available models, see the [Embeddings Documentation](https://docs.voyageai.com/embeddings/) and [Contextualized Chunk Embeddings](https://docs.voyageai.com/docs/contextualized-chunk-embeddings).
+For the complete and authoritative list of available models, see the [Embeddings Documentation](https://docs.voyageai.com/docs/embeddings), [Contextualized Chunk Embeddings](https://docs.voyageai.com/docs/contextualized-chunk-embeddings), [Multimodal Embeddings](https://docs.voyageai.com/docs/multimodal-embeddings), and [Rerankers](https://docs.voyageai.com/docs/reranker).
 
 ## Supported Models
 
 ### Text Embedding Models
 
-| Model | Description | Dimensions |
-|-------|-------------|------------|
-| `voyage-4-large` | The best general-purpose and multilingual retrieval quality | 1024 (default), 256, 512, 2048 |
-| `voyage-4` | Optimized for general-purpose and multilingual retrieval quality | 1024 (default), 256, 512, 2048 |
-| `voyage-4-lite` | Optimized for latency and cost | 1024 (default), 256, 512, 2048 |
-| `voyage-3.5` | General-purpose embedding model | 1024 |
-| `voyage-3.5-lite` | Efficient model with lower latency | 1024 |
-| `voyage-code-3` | Optimized for code retrieval | 1024 |
+| Model | Description | Context | Dimensions |
+|-------|-------------|---------|------------|
+| `voyage-4-large` | The best general-purpose and multilingual retrieval quality | 32,000 | 1024 (default), 256, 512, 2048 |
+| `voyage-4` | Optimized for general-purpose and multilingual retrieval quality | 32,000 | 1024 (default), 256, 512, 2048 |
+| `voyage-4-lite` | Optimized for latency and cost | 32,000 | 1024 (default), 256, 512, 2048 |
+| `voyage-4-nano` | Compact open-weight model | 32,000 | 1024 (default), 256, 512, 2048 |
+| `voyage-code-4` | Optimized for code retrieval and coding agents | 32,000 | 1024 (default), 256, 512, 2048 |
+| `voyage-finance-2` | Optimized for finance retrieval and RAG | 32,000 | 1024 |
+| `voyage-law-2` | Optimized for legal retrieval and RAG | 16,000 | 1024 |
+
+The 4-series embeddings share a cross-compatible embedding space. Earlier general-purpose models (`voyage-3-large`, `voyage-3.5`, `voyage-3.5-lite`, `voyage-3`, `voyage-code-3`, `voyage-multilingual-2`) remain accessible through the API but are superseded by the models above.
+
+### Contextualized Chunk Embedding Models
+
+| Model | Description | Context | Dimensions |
+|-------|-------------|---------|------------|
+| `voyage-context-4` | Contextualized chunk embeddings that preserve document context | 32,000 per chunk (120,000 total with auto chunking) | 1024 (default), 256, 512, 2048 |
+
+`voyage-context-3` remains accessible but is superseded by `voyage-context-4`.
 
 ### Multimodal Embedding Models
 
 | Model | Description | Dimensions | Modalities |
 |-------|-------------|------------|------------|
-| `voyage-multimodal-3` | Multimodal embedding model | 1024 | Text, Images |
-| `voyage-multimodal-3.5` | Multimodal embedding model (preview) | 256, 512, 1024, 2048 | Text, Images, Video |
+| `voyage-multimodal-3.5` | Multimodal embedding model | 1024 (default), 256, 512, 2048 | Text, Images, Video |
+
+`voyage-multimodal-3` (Text, Images; 1024 dimensions) remains accessible but is superseded by `voyage-multimodal-3.5`.
 
 ### Reranker Models
 
-| Model | Description |
-|-------|-------------|
-| `rerank-2.5` | Latest reranker model with the best accuracy |
-| `rerank-2` | High-accuracy reranker model |
-| `rerank-2-lite` | Efficient reranker with lower latency |
+| Model | Description | Context |
+|-------|-------------|---------|
+| `rerank-2.5` | Latest reranker with the best accuracy | 32,000 |
+| `rerank-2.5-lite` | Efficient reranker with lower latency | 32,000 |
+
+`rerank-2` and `rerank-2-lite` remain accessible but are superseded by the `rerank-2.5` models.
 
 ## Installation
 
@@ -79,7 +94,7 @@ pip install voyage-embedders-haystack
 You can use Voyage models with five components:
 - [VoyageTextEmbedder](https://github.com/awinml/voyage-embedders-haystack/blob/main/src/haystack_integrations/components/embedders/voyage_embedders/voyage_text_embedder.py) - For embedding query text
 - [VoyageDocumentEmbedder](https://github.com/awinml/voyage-embedders-haystack/blob/main/src/haystack_integrations/components/embedders/voyage_embedders/voyage_document_embedder.py) - For embedding documents
-- [VoyageContextualizedDocumentEmbedder](https://github.com/awinml/voyage-embedders-haystack/blob/main/src/haystack_integrations/components/embedders/voyage_embedders/voyage_contextualized_document_embedder.py) - For contextualized chunk embeddings with `voyage-context-3`
+- [VoyageContextualizedDocumentEmbedder](https://github.com/awinml/voyage-embedders-haystack/blob/main/src/haystack_integrations/components/embedders/voyage_embedders/voyage_contextualized_document_embedder.py) - For contextualized chunk embeddings with `voyage-context-4`
 - [VoyageMultimodalEmbedder](https://github.com/awinml/voyage-embedders-haystack/blob/main/src/haystack_integrations/components/embedders/voyage_embedders/voyage_multimodal_embedder.py) - For multimodal embeddings with `voyage-multimodal-3.5`
 - [VoyageRanker](https://github.com/awinml/voyage-embedders-haystack/blob/main/src/haystack_integrations/components/rankers/voyage/ranker.py) - For reranking documents
 
@@ -89,13 +104,13 @@ To create semantic embeddings for documents, use `VoyageDocumentEmbedder` in you
 
 ### Contextualized Embeddings
 
-For improved retrieval quality, use `VoyageContextualizedDocumentEmbedder` with the `voyage-context-3` model. This component preserves context between related document chunks by grouping them together during embedding, reducing context loss that occurs when chunks are embedded independently
+For improved retrieval quality, use `VoyageContextualizedDocumentEmbedder` with the `voyage-context-4` model. This component preserves context between related document chunks by grouping them together during embedding, reducing context loss that occurs when chunks are embedded independently
 
 **Important:** You must explicitly specify the `model` parameter when initializing any component. Choose from the available models listed in the [Embeddings Documentation](https://docs.voyageai.com/embeddings/). Recommended choices include:
 - `voyage-4-large` - Best general-purpose and multilingual retrieval quality
 - `voyage-4` - Balanced general-purpose and multilingual retrieval quality
 - `voyage-4-lite` - Optimized for latency and cost
-- `voyage-context-3` - Contextualized embeddings for improved retrieval (use with `VoyageContextualizedDocumentEmbedder`)
+- `voyage-context-4` - Contextualized embeddings for improved retrieval (use with `VoyageContextualizedDocumentEmbedder`)
 
 You can set the environment variable `VOYAGE_API_KEY` instead of passing the API key as an argument. To get an API key, please see the [Voyage AI website.](https://www.voyageai.com/)
 
@@ -312,7 +327,7 @@ print(result["messages"][-1].text)
 
 ## Contextualized Embeddings Example
 
-The `voyage-context-3` model enables contextualized chunk embeddings, which preserve relationships between document chunks for better retrieval accuracy. Documents with the same `source_id` are embedded together in context:
+The `voyage-context-4` model enables contextualized chunk embeddings, which preserve relationships between document chunks for better retrieval accuracy. Documents with the same `source_id` are embedded together in context:
 
 ```python
 from haystack import Document
@@ -336,9 +351,9 @@ docs = [
     ),
 ]
 
-# Use VoyageContextualizedDocumentEmbedder for voyage-context-3
+# Use VoyageContextualizedDocumentEmbedder for voyage-context-4
 embedder = VoyageContextualizedDocumentEmbedder(
-    model="voyage-context-3",
+    model="voyage-context-4",
     input_type="document",
 )
 

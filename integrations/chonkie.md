@@ -44,7 +44,7 @@ All components accept a `list[Document]` and return a `list[Document]`. Each out
 
 **Tokenizers** (`ChonkieTokenDocumentSplitter`, `ChonkieSentenceDocumentSplitter`, `ChonkieRecursiveDocumentSplitter`): pass any tokenizer name accepted by Chonkie. Common options are `"character"` (default, no extra dependencies), `"gpt2"`, and `"cl100k_base"`. See the [Chonkie token chunker docs](https://docs.chonkie.ai/oss/chunkers/token-chunker) for the full list of supported tokenizer backends.
 
-**Embedding models** (`ChonkieSemanticDocumentSplitter`): the default is [`minishlab/potion-base-32M`](https://huggingface.co/minishlab/potion-base-32M), a static [model2vec](https://github.com/MinishLab/model2vec) model that runs on CPU with no GPU required. Chonkie also supports SentenceTransformers, OpenAI, Cohere, Google Gemini, JinaAI, VoyageAI, and Azure OpenAI embeddings — see the [Chonkie embeddings overview](https://docs.chonkie.ai/oss/embeddings/overview#embeddings-overview) for the full list and installation instructions.
+**Embedding models** (`ChonkieSemanticDocumentSplitter`): the default is [`minishlab/potion-base-32M`](https://huggingface.co/minishlab/potion-base-32M), a static [model2vec](https://github.com/MinishLab/model2vec) model that runs on CPU with no GPU required. Chonkie also supports SentenceTransformers, OpenAI, Cohere, Google Gemini, JinaAI, VoyageAI by MongoDB, and Azure OpenAI embeddings — see the [Chonkie embeddings overview](https://docs.chonkie.ai/oss/embeddings/overview#embeddings-overview) for the full list and installation instructions.
 
 ## Installation
 

@@ -39,7 +39,7 @@ toc: true
 - **`voyage-multimodal-3.5`** - Multimodal model supporting text, images, and video
 - **`rerank-3`** and **`rerank-3-lite`** - Latest rerankers
 
-Earlier models, such as `voyage-3-large`, `voyage-3.5`, `voyage-3.5-lite`, `voyage-code-3`, `voyage-context-3`, `voyage-multimodal-3`, `rerank-2.5` and `rerank-2.5-lite`, remain available through the API.
+Earlier models, such as `voyage-3-large`, `voyage-3.5`, `voyage-3.5-lite`, `voyage-code-3`, `voyage-context-3`, `voyage-multimodal-3`, `rerank-2.5`, `rerank-2.5-lite`, `rerank-2` and `rerank-2-lite`, remain available through the API.
 
 For the complete list of available models, see the [Embeddings Documentation](https://docs.voyageai.com/docs/embeddings) and [Contextualized Chunk Embeddings](https://docs.voyageai.com/docs/contextualized-chunk-embeddings).
 
@@ -67,17 +67,17 @@ Earlier models that remain available through the API:
 
 ### Contextualized Chunk Embedding Models
 
-| Model | Description | Dimensions |
-|-------|-------------|------------|
-| `voyage-context-4` | Contextualized chunk embeddings optimized for general-purpose and multilingual retrieval quality | 1024 (default), 256, 512, 2048 |
-| `voyage-context-3` | Previous generation contextualized chunk embeddings (remains available through the API) | 1024 (default), 256, 512, 2048 |
+| Model | Description | Context Length (tokens) | Dimensions |
+|-------|-------------|-------------------------|------------|
+| `voyage-context-4` | Contextualized chunk embeddings optimized for general-purpose and multilingual retrieval quality | 32,000 per chunk, 120,000 in total | 1024 (default), 256, 512, 2048 |
+| `voyage-context-3` | Previous generation contextualized chunk embeddings (remains available through the API) | 32,000 per chunk, 120,000 in total | 1024 (default), 256, 512, 2048 |
 
 ### Multimodal Embedding Models
 
-| Model | Description | Dimensions | Modalities |
-|-------|-------------|------------|------------|
-| `voyage-multimodal-3.5` | Multimodal embedding model | 1024 (default), 256, 512, 2048 | Text, Images, Video |
-| `voyage-multimodal-3` | Previous generation multimodal embedding model (remains available through the API) | 1024 | Text, Images |
+| Model | Description | Context Length (tokens) | Dimensions | Modalities |
+|-------|-------------|-------------------------|------------|------------|
+| `voyage-multimodal-3.5` | Multimodal embedding model | 32,000 | 1024 (default), 256, 512, 2048 | Text, Images, Video |
+| `voyage-multimodal-3` | Previous generation multimodal embedding model (remains available through the API) | 32,000 | 1024 | Text, Images |
 
 ### Reranker Models
 
@@ -121,7 +121,7 @@ For improved retrieval quality, use `VoyageContextualizedDocumentEmbedder` with 
 
 You can set the environment variable `VOYAGE_API_KEY` instead of passing the API key as an argument. To get an API key, please see the [Voyage AI by MongoDB website.](https://www.voyageai.com/)
 
-> **Note (v1.7.0+):** The `model` parameter is required and must be explicitly specified. Earlier versions defaulted to `voyage-3` for embedders and `rerank-2` for the ranker.
+> **Note (v1.7.0+):** For `VoyageTextEmbedder`, `VoyageDocumentEmbedder` and `VoyageRanker`, the `model` parameter is required and must be explicitly specified. Earlier versions defaulted to `voyage-3` for embedders and `rerank-2` for the ranker.
 
 ## Example
 
